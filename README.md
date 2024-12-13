@@ -77,6 +77,13 @@ $ npm install @nestjs/config
 
 ```
 
+## googlestvis dainstalirebuli maqvs googleapi
+
+```bash
+$ npm install i googleapi
+
+```
+
 ## Oauth 2.0 isa da Jwt istvis dainstalirebulia shemdegi brdzanebebi
 
 ```bash
