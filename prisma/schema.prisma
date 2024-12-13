@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Key {
+  id        String   @id @default(uuid())
+  keyword   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Puzzle    Puzzle[]
+}
+
+model Puzzle {
+  puzzleId             String          @id @default(uuid())
+  imageUrl             String[]
+  isActive             Boolean         @default(true)
+  remainingTimeSeconds Int
+  keywordId            String
+  keyword              Key             @relation(fields: [keywordId], references: [id])
+  PuzzleAttempts       PuzzleAttempt[]
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  userName       String          @unique
+  hash           String
+  role           String          @default("user")
+  createdAt      DateTime        @default(now())
+  PuzzleAttempts PuzzleAttempt[]
+}
+
+model PuzzleAttempt {
+  id        String   @id @default(uuid())
+  isSuccess Boolean
+  createdAt DateTime @default(now())
+  userId    Int
+  puzzleId  String
+  user      User     @relation(fields: [userId], references: [id])
+  puzzle    Puzzle   @relation(fields: [puzzleId], references: [puzzleId])
+}
