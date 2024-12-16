@@ -55,6 +55,8 @@ $ npx prisma migrate deploy
 $ npx prisma studio
 ```
 
+// ფექიჯები როგორ დაინსტალირდა, მაგის დოკუმენტირებაა არაა აუცილებელი, მაგრამ რა ფექიჯი რისთვის არის ეგ სასარგებლო ინფორმაციაა
+
 ## dainstalirebuli maqvs aseve class validator da class transformer brdznabit
 
 ```bash
@@ -106,7 +108,7 @@ $ npm run start:dev
 
 ```
 
-## ENV cvladebi aris .env failshi
+## ENV cvladebi aris .env failshi - ჯობია იყოს დაკონკრეტებული, სად უნდა ეგდოს .env ფაილი (ამ შემთხვევაში პროექტის root)
 
 # sul gvaqvs otxi cvladi
 
@@ -138,3 +140,9 @@ $ npm install @nestjs/swagger swagger-ui-express
 ```
 
 # proeqtis gashvebis shemdeg Swaggeris misamarti: http://localhost:3333/api
+
+
+
+# Formatting
+ჯობია დაკომიტებისას ავტომატურად ეშვებოდეს formatter/prettier და დაფორმატებული კოდი
+კომიტდებოდეს. უშნო წასაკითხია დაუფორმატებელი კოდი. დაარისერჩე pre-commit hooks, prettier
