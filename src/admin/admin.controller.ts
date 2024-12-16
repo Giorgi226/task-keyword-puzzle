@@ -17,6 +17,12 @@ export class AdminController {
     @ApiQuery({ name: 'limit', required: false, description: 'paginaciis limiti ert gverdze gantavsebistvis' })
     @Roles('admin')
     @Get('users')
+
+    /**
+     * მიღებული მიდგომაა რომ მინიმუმ კონტროლერის ფუნქციებს მაინც ჰქონდეს გაწერილი return type-ად გაწერილი შესაბამისი DTO
+     * და სვაგერშიც გამოჩნდება რას აბრუნებს.
+     * ასევე, თუ ერთზე მეტი query პარამეტრი აქვს, ეგეც ცალკე query dto-დ ჯობია იყოს გაწერილი და ვალიდაციებსაც dto-ში დაადებ
+     */
     getUsers(@Query('page')page: number,@Query('limit')limit: number ){
         return this.adminService.getUsers(page,limit)
     }

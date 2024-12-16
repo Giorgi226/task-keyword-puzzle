@@ -13,6 +13,12 @@ export class PuzzleService implements OnModuleInit, OnModuleDestroy  {
     private puzzleTimers: Map<string, Date> = new Map()
     private timerInterval: NodeJS.Timeout
     onModuleInit() {
+        /**
+         * ასეც მუშაობს. უფრო მეტი სიზუსტისთვის შეიძლებოდა რომ თითოეულ პაზლს ცალკე ტაიმერი ჰქონოდა 90 წამიანი (setTimeout)
+         * რომელიც წაშლიდა პაზლს 90 წამში და ჩაუწერდა იუზერს წარუმატებელ მცდელობად. წარმატების შემთხვევაში კი ტაიმაუტი
+         * და პაზლი გაუქმდებოდა
+         * და დარეგისტრირდებოდა წარმატებული მცდელობა.
+         */
         this.timerInterval = setInterval(() => this.checkPuzzleTimers(), 1000)
     }
     onModuleDestroy() {
@@ -39,6 +45,9 @@ export class PuzzleService implements OnModuleInit, OnModuleDestroy  {
         const imageUrls = await this.googleImageService.fetchImages(keyword.keyword)
 
 
+        /**
+         * თვითონ პაზლების მენეჯმენტი აპლიკაციის შიგნითვე უფრო მარტივი იქნებოდა, ბაზაში შენახვა არ იყო საჭირო.
+         */
     const puzzle = await this.prismaService.puzzle.create({
         data: {
         imageUrl: imageUrls,
@@ -82,6 +91,11 @@ export class PuzzleService implements OnModuleInit, OnModuleDestroy  {
         const currentTime = new Date();
         const elapsedSeconds = Math.floor((currentTime.getTime() - startTime.getTime()) / 1000);
 
+        /**
+         * 5 სხვადასხვა ადგილას არის რიცხვი 90 გამოყენებული, ამის მენეჯმენტი გართულდებოდა მომავალში. ვინაიდან
+         * საცდელი დავალებაა, კი ბატონო, მაგრამ სწორი პრაქტიკაა რომ ყველანაირი ცვლადი რიცხვი შეინახო
+         * როგორც კონფიგურაცია და იქიდან აიღო როცა დაგჭირდება. ანუ გქონოდა კონფიგი PUZZLE_LIFETIME_SECONDS=90
+         */
         if (elapsedSeconds > 90) {
         await this.prismaService.puzzle.update({
         where: { puzzleId },
@@ -92,6 +106,11 @@ export class PuzzleService implements OnModuleInit, OnModuleDestroy  {
 
         const isCorrect = puzzle.keyword.keyword === lowerCaseKeyword
 
+
+        /**
+         * მოთხოვნებში მკაფიოდ არ ეწერა, მართალია. - არასწორი მცდელობა კი არ უნდა ჩაითვალოს წარუმატებლობად, არამედ
+         * დრო რომ ამოიწურება სწორი პასუხის გარეშე, ეგ უნდა ჩაითვალოს მხოლოდ.
+         */
         await this.prismaService.puzzleAttempt.create({
             data:{
                 isSuccess:isCorrect,
@@ -110,6 +129,10 @@ export class PuzzleService implements OnModuleInit, OnModuleDestroy  {
                     isActive: false
                 }
             })
+            /**
+             * მოთხოვნების მიხედვით, სწორად პასუხის შემთხვევაშიც პაზლის დეაქტივაცია უნდა მოხდეს. ახლა როგორც წერია,
+             * ერთ პაზლზე ბევრი ქულის დაწერა შეიძლება ბევრჯერ თუ უპასუხებ.
+             */
             return {
                 statusCode: 200,
                 message: 'pasuxi sworia',

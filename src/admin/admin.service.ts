@@ -25,6 +25,9 @@ export class AdminService {
   
         return users.map((user)=>({
             username: user.userName,
+            // აპლიკაციის შიდა ცვლადები/სახელები ააწყე ყოველთვის ინგლისურად, თუ სხვანაირად არ გექნება მოთხოვნებში.
+            // ამ შემთხვევაში, მხოლოდ API-ის ინტერფეისის მხარეს არის ქართულად, რაც მარტივად შესაცვლელია და დიდი პრობლემა
+            // იქნებოდა
             sheqmnisdro: user.createdAt,
             warmatebuliPuzzles: user.PuzzleAttempts.filter((a)=> a.isSuccess).length,   
             warumatebeliPuzzles: user.PuzzleAttempts.filter((a)=>!a.isSuccess).length
