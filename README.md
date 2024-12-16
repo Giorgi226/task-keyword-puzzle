@@ -80,7 +80,7 @@ $ npm install @nestjs/config
 ## googlestvis dainstalirebuli maqvs googleapi
 
 ```bash
-$ npm install i googleapi
+$ npm install googleapi
 
 ```
 
